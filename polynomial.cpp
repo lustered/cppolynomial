@@ -107,13 +107,6 @@ int main()
 {
     polynomial p1 = polynomial();
     
-    /* node n1 = node(term(3,5)); */
-    /* node n2 = node(term(2,6)); */
-    /* node n3 = node(term(1,3)); */
-    /* p1.addTerm(n3); */
-    /* p1.addTerm(n2); */
-    /* p1.addTerm(n3); */
-
     p1.addTerm(node(term(1,3)));
     p1.addTerm(node(term(3,5)));
     p1.addTerm(node(term(1,3)));
