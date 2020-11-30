@@ -1,22 +1,20 @@
-#include <algorithm>
-#include <iostream>
 #include <bits/stdc++.h>
 
 class term{
     public:
-        int* coefficient;
-        int* exponent;
+        int coefficient;
+        int exponent;
 
         term(int coefficient, int exponent)
         {
-            this->coefficient = &coefficient;
-            this->exponent = &exponent;
+            this->coefficient = coefficient;
+            this->exponent = exponent;
         }
 
-        std::string tv()
+        std::string termInfo()
         {
             char buff[50];
-            snprintf(buff, sizeof(buff), "%dx^%d",*this->coefficient, *this->exponent);
+            snprintf(buff, sizeof(buff), "%dx^%d",this->coefficient, this->exponent);
             std::string ret = buff;
             return ret;
         }
@@ -27,59 +25,76 @@ class node{
         term data;
         node* next;
 
-        node() : data(term(3,5)), next(NULL){}
+        node() : data(term(1,1)), next(nullptr){}
 
-        node(term exp) : data(exp), next(NULL){}
+        node(term exp) : data(exp), next(nullptr){}
 
         /* don't work */
-        int* exp(){ return this->data.exponent;};
-        int* coeff(){ return this->data.coefficient;};
+        int exp(){ return this->data.exponent;};
+        int coeff(){ return this->data.coefficient;};
 };
 
 class polynomial{
     public: 
-        node* head;
+        node* head = nullptr;
 
-        void addTerm(term* exp)
+        void addTerm(node exp)
         {
-            /* node t = node(*exp); */ 
-            node t = *exp; 
-
-            if(this->head == NULL) 
+            node* t = new node(exp);
+            /* If empty polynomial, add to head */
+            if(this->head == nullptr) 
             {
-                this->head = &t;
+                /* std::cout << "the head is " + exp.data.termInfo() << std::endl; */
+                this->head = t;
                 return;
             }
 
-            if(head->data.exponent > exp->exponent)
+            /* New polynomial's exponent is smaller than head */
+            if(this->head->data.exponent > exp.data.exponent)
             {
-                t.next = this->head;
-                this->head = &t;
+                /* std::cout << "new head" << std::endl; */
+                t->next = this->head;
+                this->head = t;
                 return;
             }
 
+            /* if the next term's exponent is <= than the adding tem */
             node* tmp = this->head;
-            while(tmp != NULL)
+            while(tmp->next != nullptr)
             {
-                if(tmp->next->coeff() >= exp->exponent)
+                /* std::cout << tmp->data.coefficient << std::endl; */
+
+                if(tmp->next->data.exponent >= exp.data.exponent)
                 {
-                    t.next = tmp->next;
-                    tmp->next = &t;
+                    /* std::cout << "between" << std::endl; */
+                    t->next = tmp->next;
+                    tmp->next = t;
                     return;
                 }
+                else 
+                    tmp = tmp->next; 
             }
+
+            /* std::cout << "in the end" << std::endl; */
+            tmp->next = t;
         }
+
         std::string print(){
-            if(this->head == NULL)
-                return "empty polynomial";
+
+            if(this->head == nullptr)
+                return "Empty Polynomial"; 
 
             node* t = this->head;
             char buff[350];
             std::string ret = "";
 
-            while(t != NULL)
+            snprintf(buff, sizeof(buff), "%dx^%d", t->coeff(), t->exp());
+            ret+=buff;
+            t = t->next;
+
+            while(t != nullptr)
             {
-                snprintf(buff, sizeof(buff), "%dx^%d + ", *t->coeff(), *t->exp());
+                snprintf(buff, sizeof(buff), " + %dx^%d", t->coeff(), t->exp());
                 ret += buff;
                 t = t->next;
             }
@@ -90,12 +105,23 @@ class polynomial{
 
 int main()
 {
+    polynomial p1 = polynomial();
     
-    term t1 = term(3, 10);
-    std::cout << t1.tv() << std::endl;
-    /* node n1 = node(t1); */
-    node n1 = node();
-    /* std::cout << *n1.data.coefficient << " " << *n1.data.exponent << std::endl; */
-    std::cout << n1.data.tv() << std::endl;
+    /* node n1 = node(term(3,5)); */
+    /* node n2 = node(term(2,6)); */
+    /* node n3 = node(term(1,3)); */
+    /* p1.addTerm(n3); */
+    /* p1.addTerm(n2); */
+    /* p1.addTerm(n3); */
+
+    p1.addTerm(node(term(1,3)));
+    p1.addTerm(node(term(3,5)));
+    p1.addTerm(node(term(1,3)));
+    p1.addTerm(node(term(5,1)));
+    p1.addTerm(node(term(5,6)));
+    p1.addTerm(node(term(5,0)));
+
+    std::cout << p1.print() + "\n";
+
     return 0;
 }
