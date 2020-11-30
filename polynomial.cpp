@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <cstdint>
 
 class term{
     public:
@@ -34,13 +35,15 @@ class node{
         int coeff(){ return this->data.coefficient;};
 };
 
+/* TODO write copy polynomial */
 class polynomial{
     public: 
         node* head = nullptr;
 
-        void addTerm(node exp)
+        void addTerm(int coeff, int expo)
         {
-            node* t = new node(exp);
+            /* node* t = new node(exp); */
+            node* t = new node(term(coeff,expo));
             /* If empty polynomial, add to head */
             if(this->head == nullptr) 
             {
@@ -50,7 +53,7 @@ class polynomial{
             }
 
             /* New polynomial's exponent is smaller than head */
-            if(this->head->data.exponent > exp.data.exponent)
+            if(this->head->data.exponent > expo)
             {
                 /* std::cout << "new head" << std::endl; */
                 t->next = this->head;
@@ -64,7 +67,7 @@ class polynomial{
             {
                 /* std::cout << tmp->data.coefficient << std::endl; */
 
-                if(tmp->next->data.exponent >= exp.data.exponent)
+                if(tmp->next->data.exponent >= expo)
                 {
                     /* std::cout << "between" << std::endl; */
                     t->next = tmp->next;
@@ -77,6 +80,31 @@ class polynomial{
 
             /* std::cout << "in the end" << std::endl; */
             tmp->next = t;
+            this->combine();
+        }
+
+        polynomial* addPol(polynomial* p)
+        {
+            if(this->head == nullptr || p->head == nullptr)
+                return NULL;
+
+            /* TODO */
+            polynomial ret = new polynomial(this);
+            polynomial cp = polynomial(*p);
+
+            node* t = ret.head;
+            while(t->next != nullptr)
+                t = t->next;
+
+            node* t2 = cp.head;
+            while(t2->next != nullptr )
+            {
+                ret.addTerm(t2->data.coefficient, t2->data.exponent);
+                t2 = t2->next;
+            }
+            ret.combine();
+
+            return &ret;
         }
 
         std::string print(){
@@ -89,7 +117,7 @@ class polynomial{
             std::string ret = "";
 
             snprintf(buff, sizeof(buff), "%dx^%d", t->coeff(), t->exp());
-            ret+=buff;
+            ret += buff;
             t = t->next;
 
             while(t != nullptr)
@@ -101,20 +129,53 @@ class polynomial{
 
             return ret;
         }
+
+    private:
+        void combine()
+        {
+            if(this->head == nullptr)
+                return;
+
+            node* t = this->head;
+            while(t->next != nullptr)
+            {
+                if(t->data.exponent == t->next->data.exponent)
+                {
+                    int nc = t->data.coefficient +
+                                   t->next->data.coefficient;
+
+                    term nt = term(nc, t->data.exponent);
+                    node* combined = new node(nt);
+                    t->data = combined->data; 
+                    t->next = (t->next->next != nullptr) ? t->next->next : nullptr;
+                }
+                else
+                    t = t->next;
+
+            }
+
+        }
 };
 
 int main()
 {
     polynomial p1 = polynomial();
     
-    p1.addTerm(node(term(1,3)));
-    p1.addTerm(node(term(3,5)));
-    p1.addTerm(node(term(1,3)));
-    p1.addTerm(node(term(5,1)));
-    p1.addTerm(node(term(5,6)));
-    p1.addTerm(node(term(5,0)));
+    p1.addTerm(1, 3);
+    p1.addTerm(3, 5);
+    p1.addTerm(1, 3);
+    /* p1.addTerm(5, 1); */
+    /* p1.addTerm(5, 6); */
+    /* p1.addTerm(2, 0); */
 
     std::cout << p1.print() + "\n";
+
+    polynomial tmp = polynomial();
+    tmp.addTerm(5, 2);
+
+    polynomial* p2 = p1.addPol(&tmp);
+
+    std::cout << p2->print() + "\n";
 
     return 0;
 }
