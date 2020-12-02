@@ -7,13 +7,7 @@ class term{
         int coefficient;
         int exponent;
 
-        term(int coefficient, int exponent)
-        {
-            this->coefficient = coefficient;
-            this->exponent = exponent;
-        }
-
-        /* term(term& t1) : coefficient(t1.coefficient), exponent(t1.exponent){} */
+        term(int coeff, int expo) : coefficient(coeff), exponent(expo){}
 
         std::string termInfo()
         {
@@ -33,7 +27,6 @@ class node{
 
         node(term exp) : data(exp), next(nullptr){}
 
-        /* don't work */
         int exp(){ return this->data.exponent;};
         int coeff(){ return this->data.coefficient;};
 };
@@ -47,14 +40,14 @@ class polynomial{
         polynomial(const polynomial& p2)
         {
             this->head = new node(term(p2.head->data));
-            node* ptr = p2.head->next;
-            node* ptr2 = this->head;
+            node* ptr = this->head;
+            node* ptr2 = p2.head->next;
             
-            while(ptr != nullptr)
+            while(ptr2 != nullptr)
             {
-                ptr2->next = new node(term(ptr->data));
-                ptr = ptr->next;
+                ptr->next = new node(term(ptr2->data));
                 ptr2 = ptr2->next;
+                ptr = ptr->next;
             }
         }
 
@@ -153,11 +146,12 @@ class polynomial{
                 if(t->data.exponent == t->next->data.exponent)
                 {
                     int nc = t->data.coefficient +
-                                   t->next->data.coefficient;
+                             t->next->data.coefficient;
 
                     term nt = term(nc, t->data.exponent);
                     node* combined = new node(nt);
                     t->data = combined->data; 
+
                     t->next = (t->next->next != nullptr) ? t->next->next : nullptr;
                 }
                 else
@@ -166,18 +160,15 @@ class polynomial{
         }
 };
 
-int main()
-{
+int main(){
     polynomial p1 = polynomial();
     
     p1.addTerm(1, 3);
     p1.addTerm(3, 5);
     p1.addTerm(1, 3);
     p1.addTerm(5, 1);
-    /* p1.addTerm(5, 6); */
-    /* p1.addTerm(2, 0); */
-
-    /* std::cout << p1.print() + "\n"; */
+    p1.addTerm(5, 6);
+    p1.addTerm(2, 0);
 
     polynomial tmp = polynomial();
     tmp.addTerm(5, 2);
@@ -187,11 +178,11 @@ int main()
     std::cout << "p2 = " + p2.print() + "\n";
 
     /* Copy constructor test */
-    /* std::cout << "p1 = " + p1.print() + "\n"; */
-    /* std::cout << "p2 = " + p2.print() + "\n"; */
-    /* p1.addTerm(10, 10); */
-    /* std::cout << "p1 after adding 10x^10 = " + p1.print() + "\n"; */
-    /* std::cout << "but p2 = " + p2.print() + "\n"; */
+    std::cout << "p1 = " + p1.print() + "\n";
+    std::cout << "p2 = " + p2.print() + "\n";
+    p1.addTerm(10, 10);
+    std::cout << "p1 after adding 10x^10 = " + p1.print() + "\n";
+    std::cout << "but p2 = " + p2.print() + "\n";
 
     return 0;
 }
