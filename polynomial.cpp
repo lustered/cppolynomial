@@ -2,36 +2,11 @@
 #include <cstdint>
 #include <iostream>
 
-class term{
-    public:
-        int coefficient;
-        int exponent;
-
-        term(int coeff, int expo) : coefficient(coeff), exponent(expo){}
-
-        std::string termInfo()
-        {
-            char buff[50];
-            snprintf(buff, sizeof(buff), "%dx^%d",this->coefficient, this->exponent);
-            std::string ret = buff;
-            return ret;
-        }
-};
-
-class node{
-    public:
-        term data;
-        node* next;
-
-        node() : data(term(0,0)), next(nullptr){}
-
-        node(term exp) : data(exp), next(nullptr){}
-
-        int exp(){ return this->data.exponent;};
-        int coeff(){ return this->data.coefficient;};
-};
 
 class polynomial{
+    class node;
+    class term;
+
     public: 
         node* head = nullptr;
 
@@ -51,6 +26,11 @@ class polynomial{
             }
         }
 
+        /**
+         * Add terms to the polynomial.
+         * @param coeff coefficient.
+         * @param expo exponent.
+         */
         void addTerm(int coeff, int expo)
         {
             node* t = new node(term(coeff,expo));
@@ -103,7 +83,7 @@ class polynomial{
             node* t2 = cp.head;
             while(t2->next != nullptr )
             {
-                ret.addTerm(t2->data.coefficient, t2->data.exponent);
+                ret.addTerm(t2->data.coeff, t2->data.exponent);
                 t2 = t2->next;
             }
             ret.combine();
@@ -145,8 +125,8 @@ class polynomial{
             {
                 if(t->data.exponent == t->next->data.exponent)
                 {
-                    int nc = t->data.coefficient +
-                             t->next->data.coefficient;
+                    int nc = t->data.coeff +
+                             t->next->data.coeff;
 
                     term nt = term(nc, t->data.exponent);
                     node* combined = new node(nt);
@@ -158,6 +138,35 @@ class polynomial{
                     t = t->next;
             }
         }
+
+        class term{
+            public:
+                int coeff;
+                int exponent;
+
+                term(int coeff, int expo) : coeff(coeff), exponent(expo){}
+
+                std::string termInfo()
+                {
+                    char buff[50];
+                    snprintf(buff, sizeof(buff), "%dx^%d",this->coeff, this->exponent);
+                    std::string ret = buff;
+                    return ret;
+                }
+        };
+
+        class node{
+            public:
+                term data;
+                node* next;
+
+                node() : data(term(0,0)), next(nullptr){}
+
+                node(term exp) : data(exp), next(nullptr){}
+
+                int exp(){ return this->data.exponent;};
+                int coeff(){ return this->data.coeff;};
+        };
 };
 
 int main(){
