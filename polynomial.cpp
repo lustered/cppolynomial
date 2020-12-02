@@ -38,7 +38,6 @@ class node{
         int coeff(){ return this->data.coefficient;};
 };
 
-/* TODO write copy polynomial */
 class polynomial{
     public: 
         node* head = nullptr;
@@ -84,7 +83,6 @@ class polynomial{
 
                 if(tmp->next->data.exponent >= expo)
                 {
-                    /* std::cout << "between" << std::endl; */
                     t->next = tmp->next;
                     tmp->next = t;
                     return;
