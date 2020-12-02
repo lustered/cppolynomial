@@ -77,11 +77,11 @@ class polynomial{
             polynomial cp = polynomial(p);
 
             node* t = ret.head;
-            while(t->next != nullptr)
+            while(t != nullptr)
                 t = t->next;
 
             node* t2 = cp.head;
-            while(t2->next != nullptr )
+            while(t2 != nullptr )
             {
                 ret.addTerm(t2->data.coeff, t2->data.exponent);
                 t2 = t2->next;
@@ -181,10 +181,11 @@ int main(){
 
     polynomial tmp = polynomial();
     tmp.addTerm(5, 2);
+    std::cout << "p1 = " + p1.print() + "\n";
 
     /* adding polynomials */
     polynomial p2(p1.addPol(tmp));
-    std::cout << "p2 = " + p2.print() + "\n";
+    /* std::cout << "p2 = " + p2.print() + "\n"; */
 
     /* Copy constructor test */
     std::cout << "p1 = " + p1.print() + "\n";
