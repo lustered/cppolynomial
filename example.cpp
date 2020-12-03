@@ -15,7 +15,6 @@ int main()
 
     polynomial p3(p1.addPol(p2));
 
-
     printf("\np1 = %s\np2 = %s\np1+p2 = %s\n",
             p1.print().c_str(),p2.print().c_str(),p3.print().c_str());
 
