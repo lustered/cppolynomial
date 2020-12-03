@@ -1,4 +1,4 @@
-#include "lib/polynomial.h"
+#include "../lib/polynomial.h"
 
 int main()
 {
@@ -24,11 +24,11 @@ int main()
     std::cout << "p3 = " + p3.print() << std::endl;
 
     /* Copy constructor test */
-    /* std::cout << "p1 = " + p1.print() + "\n"; */
-    /* std::cout << "p2 = " + p2.print() + "\n"; */
-    /* p1.addTerm(10, 10); */
-    /* std::cout << "p1 after adding 10x^10 = " + p1.print() + "\n"; */
-    /* std::cout << "but p2 = " + p2.print() + "\n"; */
+    std::cout << "\nCopy constructor\np1 = " + p1.print() + "\n";
+    std::cout << "p2 = " + p2.print() + "\n";
+    p1.addTerm(10, 10);
+    std::cout << "p1 after adding 10x^10 = " + p1.print() + "\n";
+    std::cout << "but p2 = " + p2.print() + "\n";
 
     return 0;
 }

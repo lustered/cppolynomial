@@ -1,5 +1,6 @@
 #ifndef POLYNOMIAL_H
 #define POLYNOMIAL_H
+
 #include <bits/stdc++.h>
 #include <cstdint>
 #include <iostream>
@@ -198,36 +199,3 @@ class polynomial{
 };
 
 #endif
-
-/* int main() */
-/* { */
-/*     polynomial p1 = polynomial(); */
-    
-/*     p1.addTerm(5, 2); */
-/*     p1.addTerm(4, 5); */
-/*     p1.addTerm(3, 3); */
-/*     p1.addTerm(1, 2); */
-/*     p1.addTerm(5, 6); */
-
-/*     polynomial tmp = polynomial(); */
-/*     tmp.addTerm(5, 2); */
-
-/*     /1* adding polynomials *1/ */
-/*     polynomial p2(p1.addPol(tmp)); */
-
-/*     /1* multiplying polynomials *1/ */
-/*     polynomial p3(p1.multPol(p2)); */
-
-/*     std::cout << "p1 = " + p1.print() << std::endl; */
-/*     std::cout << "p2 = " + p2.print() << std::endl; */
-/*     std::cout << "p3 = " + p3.print() << std::endl; */
-
-/*     /1* Copy constructor test *1/ */
-/*     /1* std::cout << "p1 = " + p1.print() + "\n"; *1/ */
-/*     /1* std::cout << "p2 = " + p2.print() + "\n"; *1/ */
-/*     /1* p1.addTerm(10, 10); *1/ */
-/*     /1* std::cout << "p1 after adding 10x^10 = " + p1.print() + "\n"; *1/ */
-/*     /1* std::cout << "but p2 = " + p2.print() + "\n"; *1/ */
-
-/*     return 0; */
-/* } */
