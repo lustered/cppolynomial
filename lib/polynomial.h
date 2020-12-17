@@ -29,11 +29,6 @@ class polynomial{
             }
         }
 
-        /**
-         * Add terms to the polynomial.
-         * @param coeff coefficient.
-         * @param expo exponent.
-         */
         void addTerm(int coeff, int expo)
         {
             node* t = new node(term(coeff,expo));
@@ -56,7 +51,6 @@ class polynomial{
             node* tmp = this->head;
             while(tmp->next != nullptr)
             {
-
                 if(tmp->next->data.exp >= expo)
                 {
                     t->next = tmp->next;
