@@ -6,3 +6,5 @@
     Combine like terms
     Add polynomials
     Multiply polynomials
+
+![example](https://github.com/lustered/cppolynomial/blob/master/polynomials.png)
