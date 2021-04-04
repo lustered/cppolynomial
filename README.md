@@ -6,4 +6,3 @@
     Combine like terms
     Add polynomials
     Multiply polynomials
-

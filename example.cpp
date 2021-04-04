@@ -18,7 +18,7 @@ int main() {
 
   polynomial p4(p1.multPol(p3));
 
-  std::cout << "polynomial 3: " << p3 << "polynomial 2: " << p4;
+  std::cout << "p1 + p2: " << p3 << "p1 * p3 " << p4;
 
   return 0;
 }
